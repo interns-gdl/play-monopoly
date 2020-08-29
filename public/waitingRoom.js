@@ -1,12 +1,24 @@
 function goToJoinRoom(){
     $('#create-room').addClass('d-none');
     $('#join-room').removeClass('d-none');
+    $('#room-code').focus();
+    $('#room-code').keypress((event)=>{
+        if (event.which === 13){
+            joinRoom();
+        }
+    });
 }
 
 function goToCreatePlayer(){
     $('#create-room').addClass('d-none');
     $('#join-room').addClass('d-none');
     $('#create-player').removeClass('d-none');
+    $('#player-nickname').focus();
+    $('#player-nickname').keypress((event)=>{
+        if (event.which === 13){
+            createPlayer();
+        }
+    });
 }
 
 async function createRoom(){
