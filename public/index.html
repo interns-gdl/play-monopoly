@@ -28,11 +28,11 @@
         </div>
 
         <div id="join-room" class="d-none">
+          <div id="alert-wrong-code" class="alert alert-danger d-none">There isn't any room with this code</div>
           <h3 class="">Write the code of the room</h3>
-          <input class="input-group-text w-100">
+          <input id="room-code" class="input-group-text w-100">
           <br>
           <button id="btn-join-room" class="btn btn-primary m-2">Accept</button>
-          <button class="btn btn-secondary m-2 back">Back</button>
         </div>
 
         <div id="create-player" class="d-none">
@@ -40,7 +40,6 @@
           <input class="input-group-text w-100">
           <br>
           <button id="btn-create-player" class="btn btn-primary m-2">Accept</button>
-          <button class="btn btn-secondary m-2 back">Back</button>
         </div>
 
         <div id="waiting" class="d-none">
@@ -68,6 +67,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="/waitingRoom.js"></script>
     <script src="/index.js"></script>
   </body>
 </html>
