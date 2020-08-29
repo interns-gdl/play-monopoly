@@ -42,10 +42,20 @@
             <input id="player-nickname" class="input-group-text w-100" required pattern="[a-zA-Z0-9]+">
             <br>
             <button id="btn-create-player" class="btn btn-primary m-2">Accept</button>
+            <br>
+            <button id="btn-go-to-recover-player" class="btn btn-link m-2">Recover profile</button>
+          </div>
+
+          <div id="recover-player" class="d-none">
+            <h3>Choose your profile:</h3>
+            <ul id="inactive-players-list" class="list-group w-100 m-2">
+            </ul>
           </div>
   
           <div id="waiting" class="d-none">
-            <h3>Join with code: <span class="game-room-code"></span></h3>
+            <h3>Code: <span class="game-room-code"></span></h3>
+            <hr>
+            <h4>Players</h4>
             <ul id="waiting-player-list" class="list-group w-100 m-2">
             </ul>
             <button id="btn-start-game" class="btn btn-primary m-2">Play!</button>

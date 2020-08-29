@@ -1,6 +1,7 @@
 function goToJoinRoom(){
     $('#create-room').addClass('d-none');
     $('#join-room').removeClass('d-none');
+    $('#btn-join-room').on('click', joinRoom);
     $('#room-code').focus();
     $('#room-code').keypress((event)=>{
         if (event.which === 13){
@@ -13,6 +14,8 @@ function goToCreatePlayer(){
     $('#create-room').addClass('d-none');
     $('#join-room').addClass('d-none');
     $('#create-player').removeClass('d-none');
+    $('#btn-create-player').on('click', createPlayer);
+    $('#btn-go-to-recover-player').on('click', goToRecoverPlayer);
     $('#player-nickname').focus();
     $('#player-nickname').keypress((event)=>{
         if (event.which === 13){
@@ -21,12 +24,51 @@ function goToCreatePlayer(){
     });
 }
 
+function goToRecoverPlayer(){
+    $('#create-player').addClass('d-none');
+    $('#recover-player').removeClass('d-none');
+
+    gameRoom.on('value', snap => {
+        let game = snap.val();
+        for (const nickname in game) {
+            let active = game[nickname].active;
+            let isAdmin = game[nickname].admin;
+            if (!active){
+                $('#' + nickname + '-inactive').remove();
+                let li = `<li id="${ nickname }-inactive" class="list-group-item">${ nickname }</li>`
+                $('#inactive-players-list').append(li);
+                $('#' + nickname + '-inactive').click(()=>{
+                    recoverPlayer(nickname, isAdmin);
+                })
+            }
+        }
+    })
+}
+
+function recoverPlayer(nickname, isAdmin){
+    gameRoom.off('value');
+    player = gameRoom.child(nickname);
+    admin = isAdmin;
+
+    $('.player-nickname').html(nickname);
+    player.update({
+        active:true
+    });
+    player.onDisconnect().update({
+        active:false
+    });
+
+    wait();
+}
+
 async function createRoom(){
+    admin = true;
     await setGameRoom();
     goToCreatePlayer();
 }
 
 async function joinRoom(){
+    admin = false;
     let code = $('#room-code').val();
     let validRoom = await setGameRoom(code);
     if (validRoom){
@@ -49,18 +91,30 @@ async function createPlayer(){
 
 function wait(){
     $('#create-player').addClass('d-none');
+    $('#recover-player').addClass('d-none');
     $('#waiting').removeClass('d-none');
 
     gameRoom.on('value', snap => {
         game = snap.val();
         
-        for (const player in game) {
-            let color = game[player].active ? 'success': 'danger';
-            $('#' + player + '-w').remove();
-            let li = `<li id="${ player }-w" class="list-group-item list-group-item-${ color }">${ player }</li>`
+        for (const nickname in game) {
+            let color = game[nickname].active ? 'success': 'danger';
+            $('#' + nickname + '-w').remove();
+            let li = `<li id="${ nickname }-w" class="list-group-item list-group-item-${ color }">${ nickname }</li>`
             $('#waiting-player-list').append(li);
         }
-    })
+    });
+
+    if(!admin){
+        $('#btn-start-game').remove();
+    }else{
+        $('#btn-start-game').click(startGame);
+    } 
+}
+
+function startGame(){
+    gameRoom.off();
+    $('#waiting-room').remove();
 }
 
 async function setGameRoom(code=null){
@@ -97,7 +151,8 @@ async function setPlayer(nickname){
 
     $('.player-nickname').html(nickname);
     player.set({
-        active: true
+        active: true,
+        admin: admin
     })
     player.onDisconnect().update({
         active:false
