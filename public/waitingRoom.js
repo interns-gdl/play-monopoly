@@ -42,6 +42,11 @@ function goToRecoverPlayer(){
                 })
             }
         }
+
+        if($('#inactive-players-list').children().length === 0){
+            let li = `<li id="none-inactive" class="list-group-item">There isn't any profile to recover</li>`
+            $('#inactive-players-list').append(li);
+        }
     })
 }
 
