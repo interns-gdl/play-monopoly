@@ -18,39 +18,42 @@
 
   <body>
     <div id="waiting-room" class="fixed-top w-100 h-100 bg-light">
-      <div class="d-flex justify-content-center align-items-center h-100 text-center">
+      <div class="container h-100">
+        <div class="d-flex justify-content-center align-items-center h-100 text-center">
 
-        <div id="create-room">
-          <h3 class="">What do you want to do?</h3>
-          <button id="btn-create-room" class="btn btn-primary m-2">Create a Game</button>
-          <br>
-          <button id="btn-go-to-join" class="btn btn-primary m-2">Join a Game</button>
-        </div>
+          <div id="create-room">
+            <h3 class="">What do you want to do?</h3>
+            <button id="btn-create-room" class="btn btn-primary m-2">Create a Game</button>
+            <br>
+            <button id="btn-go-to-join" class="btn btn-primary m-2">Join a Game</button>
+          </div>
+  
+          <div id="join-room" class="d-none">
+            <div id="alert-wrong-code" class="alert alert-danger d-none">There isn't any room with this code</div>
+            <h3 class="">Write the code of the room</h3>
+            <input id="room-code" class="input-group-text w-100">
+            <br>
+            <button id="btn-join-room" class="btn btn-primary m-2">Accept</button>
+          </div>
+  
+          <div id="create-player" class="d-none">
+            <div id="alert-wrong-name" class="alert alert-danger d-none">Invalid nickname. This might be other user's nickname already or it might contain invalid characters.</div>
+            <h3 class="">Write your nickname</h3>
+            <input id="player-nickname" class="input-group-text w-100" required pattern="[a-zA-Z0-9]+">
+            <br>
+            <button id="btn-create-player" class="btn btn-primary m-2">Accept</button>
+          </div>
+  
+          <div id="waiting" class="d-none">
+            <h3>Join with code: <span class="game-room-code"></span></h3>
+            <ul class="list-group w-100 m-2">
+            </ul>
+            <button id="btn-start-game" class="btn btn-primary m-2">Play!</button>
+          </div>
 
-        <div id="join-room" class="d-none">
-          <div id="alert-wrong-code" class="alert alert-danger d-none">There isn't any room with this code</div>
-          <h3 class="">Write the code of the room</h3>
-          <input id="room-code" class="input-group-text w-100">
-          <br>
-          <button id="btn-join-room" class="btn btn-primary m-2">Accept</button>
-        </div>
-
-        <div id="create-player" class="d-none">
-          <h3 class="">Write your nickname</h3>
-          <input class="input-group-text w-100">
-          <br>
-          <button id="btn-create-player" class="btn btn-primary m-2">Accept</button>
-        </div>
-
-        <div id="waiting" class="d-none">
-          <h3>Join with code: <span class="game-room-code"></span></h3>
-          <ul class="list-group w-100 m-2">
-          </ul>
-          <button id="btn-start-game" class="btn btn-primary m-2">Play!</button>
-        </div>
-
+        </div>  
       </div>
-        
+      
     </div>
     <header>
       

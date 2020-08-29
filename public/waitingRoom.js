@@ -25,6 +25,18 @@ async function joinRoom(){
     }
 }
 
+async function createPlayer(){
+    let nickname = $('#player-nickname').val();
+    let validName = await setPlayer(nickname);
+    if (validName){
+        $('#create-player').addClass('d-none');
+        $('#waiting').removeClass('d-none');
+    }else{
+        $('#alert-wrong-name').removeClass('d-none');
+    }
+
+}
+
 async function setGameRoom(code=null){
     //check if a code was passed
     if(!code){
@@ -41,5 +53,25 @@ async function setGameRoom(code=null){
 
     //set the game room code to HTML
     $('.game-room-code').html(gameRoom.key);
+    return true;
+}
+
+async function setPlayer(nickname){
+    if (nickname === '') return false;
+    if (nickname.includes('.')) return false;
+    if (nickname.includes('#')) return false;
+    if (nickname.includes('$')) return false;
+    if (nickname.includes('[')) return false;
+    if (nickname.includes(']')) return false;
+    
+    player = gameRoom.child(nickname);
+    const snap = await player.once('value');
+
+    if (snap.val() !== null) return false;
+
+    $('.player-nickname').html(nickname);
+    player.set({
+        active: true
+    })
     return true;
 }

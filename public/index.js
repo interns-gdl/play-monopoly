@@ -9,4 +9,5 @@ function main(){
     $('#btn-create-room').on('click', createRoom);
     $('#btn-go-to-join').on('click', goToJoinRoom);
     $('#btn-join-room').on('click', joinRoom);
+    $('#btn-create-player').on('click', createPlayer);
 }
