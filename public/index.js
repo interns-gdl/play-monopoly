@@ -7,13 +7,6 @@ var gameRoom, player;
 
 function main(){
     $('#btn-create-room').on('click', createRoom);
-}
-
-function createRoom(){
-    console.log('lol it works');
-    //push a new game
-    gameRoom = db.push();
-    $('.game-room-code').html(gameRoom.key);
-    $('#create-room').addClass('d-none');
-    $('#create-player').removeClass('d-none');
+    $('#btn-go-to-join').on('click', goToJoinRoom);
+    $('#btn-join-room').on('click', joinRoom);
 }
