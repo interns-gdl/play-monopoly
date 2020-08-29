@@ -29,12 +29,26 @@ async function createPlayer(){
     let nickname = $('#player-nickname').val();
     let validName = await setPlayer(nickname);
     if (validName){
-        $('#create-player').addClass('d-none');
-        $('#waiting').removeClass('d-none');
+        wait();
     }else{
         $('#alert-wrong-name').removeClass('d-none');
     }
+}
 
+function wait(){
+    $('#create-player').addClass('d-none');
+    $('#waiting').removeClass('d-none');
+
+    gameRoom.on('value', snap => {
+        game = snap.val();
+        
+        for (const player in game) {
+            let color = game[player].active ? 'success': 'danger';
+            $('#' + player + '-w').remove();
+            let li = `<li id="${ player }-w" class="list-group-item list-group-item-${ color }">${ player }</li>`
+            $('#waiting-player-list').append(li);
+        }
+    })
 }
 
 async function setGameRoom(code=null){
@@ -63,7 +77,7 @@ async function setPlayer(nickname){
     if (nickname.includes('$')) return false;
     if (nickname.includes('[')) return false;
     if (nickname.includes(']')) return false;
-    
+
     player = gameRoom.child(nickname);
     const snap = await player.once('value');
 
@@ -73,5 +87,8 @@ async function setPlayer(nickname){
     player.set({
         active: true
     })
+    player.onDisconnect().update({
+        active:false
+    });
     return true;
 }
