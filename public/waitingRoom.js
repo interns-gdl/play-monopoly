@@ -28,7 +28,7 @@ function goToRecoverPlayer(){
     $('#create-player').addClass('d-none');
     $('#recover-player').removeClass('d-none');
 
-    gameRoom.on('value', snap => {
+    gameRoom.child('players').on('value', snap => {
         let game = snap.val();
         for (const nickname in game) {
             let active = game[nickname].active;
@@ -52,7 +52,7 @@ function goToRecoverPlayer(){
 
 function recoverPlayer(nickname, isAdmin){
     gameRoom.off('value');
-    player = gameRoom.child(nickname);
+    player = gameRoom.child('players/' + nickname);
     admin = isAdmin;
 
     $('.player-nickname').html(nickname);
@@ -101,9 +101,13 @@ function wait(){
 
     gameRoom.on('value', snap => {
         game = snap.val();
-        
-        for (const nickname in game) {
-            let color = game[nickname].active ? 'success': 'danger';
+        if (game.started){
+            startGame();
+            return;
+        }
+
+        for (const nickname in game.players) {
+            let color = game.players[nickname].active ? 'success': 'danger';
             $('#' + nickname + '-w').remove();
             let li = `<li id="${ nickname }-w" class="list-group-item list-group-item-${ color }">${ nickname }</li>`
             $('#waiting-player-list').append(li);
@@ -113,13 +117,18 @@ function wait(){
     if(!admin){
         $('#btn-start-game').remove();
     }else{
-        $('#btn-start-game').click(startGame);
+        $('#btn-start-game').click(setStartedTrue);
     } 
+}
+
+function setStartedTrue(){
+    gameRoom.child('started').set(true);
 }
 
 function startGame(){
     gameRoom.off();
     $('#waiting-room').remove();
+    start();
 }
 
 async function setGameRoom(code=null){
@@ -149,7 +158,7 @@ async function setPlayer(nickname){
     if (nickname.includes('[')) return false;
     if (nickname.includes(']')) return false;
 
-    player = gameRoom.child(nickname);
+    player = gameRoom.child('players/' + nickname);
     const snap = await player.once('value');
 
     if (snap.val() !== null) return false;
