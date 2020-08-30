@@ -107,7 +107,7 @@ function wait(){
         }
 
         for (const nickname in game.players) {
-            let color = game.players[nickname].active ? 'success': 'danger';
+            let color = game.players[nickname].active ? 'success': 'secondary';
             $('#' + nickname + '-w').remove();
             let li = `<li id="${ nickname }-w" class="list-group-item list-group-item-${ color }">${ nickname }</li>`
             $('#waiting-player-list').append(li);
