@@ -38,7 +38,7 @@ function load(page){;
             loadPay();
             break;
         case 'Settings':
-            loadSettins();
+            loadSettings();
             break;
         default:
             break;
@@ -62,5 +62,12 @@ function loadPay(){
 }
 
 function loadSettings(){
-    $('main').html('These are the settings!');
+    $('main').html('\
+        <div class="container my-3">\
+        <button id="reset-game" class="btn btn-danger">Reset Game</button>\
+        </div>\
+    ');
+    $('#reset-game').click(()=>{
+        resetGame();
+    });
 }

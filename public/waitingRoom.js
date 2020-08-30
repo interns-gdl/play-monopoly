@@ -121,8 +121,30 @@ function wait(){
     } 
 }
 
-function setStartedTrue(){
-    gameRoom.child('started').set(true);
+async function setStartedTrue(){
+    let defaultFormat = 'electronicBank';
+    await resetPage(defaultFormat);
+
+    gameRoom.update({
+        started: true, 
+        format: 'electronicBank'
+    });
+}
+
+async function resetGame(format = null){
+    if (!format){
+        let gameRoomSnap = await gameRoom.once('value');
+        format = gameRoomSnap.val().format;
+    }
+    let formatSnap = await db.child('formats/'+ format).once('value');
+    let playersSnap = await gameRoom.child('players').once('value');
+    
+    playersSnap.forEach(chidlSnap =>{
+        let ref = chidlSnap.ref;
+        ref.update({
+            money: formatSnap.val().beginning
+        });
+    });
 }
 
 function startGame(){
@@ -132,13 +154,14 @@ function startGame(){
 }
 
 async function setGameRoom(code=null){
+    gamesRef = db.child('games');
     //check if a code was passed
     if(!code){
         //create a new game if not
-        gameRoom = db.push();
+        gameRoom = gamesRef.push();
     }else{
         //check if the code passed does exist
-        gameRoom = db.child(code);
+        gameRoom = gamesRef.child(code);
         const snap = await gameRoom.once('value');
 
         //return false if it doesn´t
