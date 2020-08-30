@@ -12,5 +12,5 @@ function main(){
 
 //this function will after the waiting room
 function start(){
-    $('header').html('It begins!')
+    $('main').html('It begins!')
 }
