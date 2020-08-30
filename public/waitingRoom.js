@@ -145,6 +145,19 @@ async function resetGame(format = null){
             money: formatSnap.val().beginning
         });
     });
+
+    gameRoom.child('transactions').remove();
+
+    if($('#settings-page').length !== 0){
+        $('#settings-page').prepend('\
+        <div class="alert alert-success alert-dismissible fade show" role="alert">\
+            <strong>Reset Completed Successfuly!</strong>\
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">\
+                <span aria-hidden="true">&times;</span>\
+            </button>\
+        </div>\
+        ');
+    }
 }
 
 function startGame(){
