@@ -3,11 +3,14 @@ $(document).ready(main);
 
 //declare global variables here
 const db = firebase.database().ref('/');
-var gameRoom, player;
+var gameRoom, player, admin;
 
 function main(){
     $('#btn-create-room').on('click', createRoom);
     $('#btn-go-to-join').on('click', goToJoinRoom);
-    $('#btn-join-room').on('click', joinRoom);
-    $('#btn-create-player').on('click', createPlayer);
+}
+
+//this function will after the waiting room
+function start(){
+    $('main').html('It begins!')
 }
