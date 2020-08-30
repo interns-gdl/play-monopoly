@@ -123,7 +123,7 @@ function wait(){
 
 async function setStartedTrue(){
     let defaultFormat = 'electronicBank';
-    await resetPage(defaultFormat);
+    await resetGame(defaultFormat);
 
     gameRoom.update({
         started: true, 
