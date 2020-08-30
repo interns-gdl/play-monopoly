@@ -50,6 +50,8 @@ function load(page){;
 
 function resetPage(){
     $('main').empty();
+    gameRoom.off('value');
+    gameRoom.child('transactions').off('value');
 }
 
 function invalidTransaction(message){
@@ -117,6 +119,7 @@ async function makeTransaction(to, type, amount, concept){
         to: to,
         amount: amount,
         concept: concept,
+        type: type
     });
     completedTransaction();
 }
