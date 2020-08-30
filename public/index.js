@@ -40,6 +40,9 @@ function load(page){;
         case 'Settings':
             loadSettings();
             break;
+        case 'Players':
+            loadPlayers();
+            break;
         default:
             break;
     }
@@ -49,55 +52,8 @@ function resetPage(){
     $('main').empty();
 }
 
-function loadTransactions(){
-    $('main').html('These are the transactions!');
-}
-
-function loadMyAccount(){
-    $('main').html('These is your account!');
-}
-
-async function loadPay(){
-    $('main').html('\
-        <div id="pay-page" class="container my-5">\
-            <h3>To</h3>\
-            <select id="to" class="custom-select mb-3">\
-                <option value="bank">Bank</option>\
-            </select>\
-            \
-            <h3>Type</h3>\
-            <select id="type" class="custom-select mb-3">\
-                <option value="pay">Pay</option>\
-                <option value="charge">Charge</option>\
-            </select>\
-            \
-            <h3>Amount</h3>\
-            <input id="amount" class="input-group-text w-100 mb-3" type="number">\
-            \
-            <h3>Concept</h3>\
-            <input id="concept" class="input-group-text w-100 mb-3">\
-            \
-            <button id="make-transaction" class="btn btn-primary">Make Transaction</button>\
-        </div>\
-    ');
-
-    let playersSnap = await gameRoom.child('players').once('value');
-    playersSnap.forEach(childSnap =>{
-        if(player.key !== childSnap.key){
-            $('#to').append(`\
-                <option value="${childSnap.key}">${childSnap.key}</option>\
-            `);
-        }
-    });
-
-    $('#make-transaction').click(()=>{
-        makeTransaction($('#to').val(), $('#type').val(), $('#amount').val(), $('#concept').val())
-    })
-
-}
-
 function invalidTransaction(message){
-    $('#pay-page').prepend(`\
+    $('#main-page').prepend(`\
         <div class="alert alert-danger alert-dismissible fade show" role="alert">\
             <strong>Invalid transaction!</strong> ${ message }\
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">\
@@ -108,7 +64,7 @@ function invalidTransaction(message){
 }
 
 function completedTransaction(){
-    $('#pay-page').prepend(`\
+    $('#main-page').prepend(`\
         <div class="alert alert-success alert-dismissible fade show" role="alert">\
             <strong>Transaction Completed Successfuly!</strong>\
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">\
@@ -163,15 +119,4 @@ async function makeTransaction(to, type, amount, concept){
         concept: concept,
     });
     completedTransaction();
-}
-
-function loadSettings(){
-    $('main').html('\
-        <div id="settings-page" class="container my-5">\
-        <button id="reset-game" class="btn btn-danger">Reset Game</button>\
-        </div>\
-    ');
-    $('#reset-game').click(()=>{
-        resetGame();
-    });
 }
